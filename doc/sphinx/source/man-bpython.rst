@@ -58,7 +58,7 @@ the regular Python interpreter.
 -V, --version          Print :program:`bpython`'s version and exit.
 -L, --log              Write debugging messages to the file bpython.log. Use
                        -LL for more verbose logging. Only available in :program:`bpython`.
--t file, --type=file   Paste in the contents of a file at startup. Only available in :program:`bpython`.
+-p file, --paste=file  Paste in the contents of a file at startup. Only available in :program:`bpython`.
 
 In addition to the above options, :program:`bpython-urwid` also supports the
 following options if Twisted is available:
