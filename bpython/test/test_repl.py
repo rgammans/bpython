@@ -319,7 +319,7 @@ class TestRepl(unittest.TestCase):
 
         self.assertTrue(self.repl.complete())
         self.assertTrue(hasattr(self.repl.matches_iter, 'matches'))
-        self.assertEqual(self.repl.matches_iter.matches, ['Foo.bar'])
+        self.assertEqual(self.repl.matches_iter.matches, ['Foo.bar('])
 
     @unittest.skip("disabled while non-simple completion is disabled")
     def test_substring_attribute_complete(self):

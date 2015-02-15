@@ -24,6 +24,12 @@ class TestSafeEval(unittest.TestCase):
         with self.assertRaises(autocomplete.EvaluationError):
             autocomplete.safe_eval('1re', {})
 
+    def test_doesnt_eval_properties(self):
+        self.assertRaises(autocomplete.EvaluationError,
+                          autocomplete.safe_eval, '1re', {})
+        p = Properties()
+        autocomplete.safe_eval('p.asserts_when_called', {'p': p})
+
 
 class TestFormatters(unittest.TestCase):
 
@@ -205,6 +211,13 @@ class Foo(object):
 
     def method(self, x):
         pass
+
+
+class Properties(Foo):
+
+    @property
+    def asserts_when_called(self):
+        raise AssertionError("getter method called")
 
 
 class TestAttrCompletion(unittest.TestCase):

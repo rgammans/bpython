@@ -203,9 +203,6 @@ class AttrCompletion(BaseCompletionType):
         matches = set(''.join([text[:-i], m])
                       for m in attr_matches(methodtext, locals_))
 
-        # TODO add open paren for methods via _callable_prefix
-        matches = set(_callable_postfix(eval(m, locals_), m)
-                      for m in matches)
         # unless the first character is a _ filter out all attributes
         # starting with a _
         if not text.split('.')[-1].startswith('_'):
@@ -517,7 +514,8 @@ def attr_lookup(obj, expr, attr):
     n = len(attr)
     for word in words:
         if method_match(word, n, attr) and word != "__builtins__":
-            matches.append("%s.%s" % (expr, word))
+            attr_obj = getattr(obj, word)  # scary!
+            matches.append(_callable_postfix(attr_obj, "%s.%s" % (expr, word)))
     return matches
 
 
