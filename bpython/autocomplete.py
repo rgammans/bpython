@@ -203,8 +203,10 @@ class AttrCompletion(BaseCompletionType):
         matches = set(''.join([text[:-i], m])
                       for m in attr_matches(methodtext, locals_))
 
-        # TODO add open paren for methods via _callable_prefix (or decide not
-        # to) unless the first character is a _ filter out all attributes
+        # TODO add open paren for methods via _callable_prefix
+        matches = set(_callable_postfix(eval(m, locals_), m)
+                      for m in matches)
+        # unless the first character is a _ filter out all attributes
         # starting with a _
         if not text.split('.')[-1].startswith('_'):
             matches = set(match for match in matches

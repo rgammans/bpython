@@ -212,7 +212,7 @@ class TestAttrCompletion(unittest.TestCase):
     def test_att_matches_found_on_instance(self):
         com = autocomplete.AttrCompletion()
         self.assertSetEqual(com.matches(2, 'a.', locals_={'a': Foo()}),
-                            set(['a.method', 'a.a', 'a.b']))
+                            set(['a.method(', 'a.a', 'a.b']))
 
 
 class TestMagicMethodCompletion(unittest.TestCase):
