@@ -221,6 +221,11 @@ class TestAttrCompletion(unittest.TestCase):
         self.assertSetEqual(com.matches(2, 'a.', locals_={'a': Foo()}),
                             set(['a.method(', 'a.a', 'a.b']))
 
+    def test_descriptor_attributes_not_run(self):
+        com = autocomplete.AttrCompletion()
+        self.assertSetEqual(com.matches(2, 'a.', locals_={'a': Properties()}),
+                            set(['a.asserts_when_called']))
+
 
 class TestMagicMethodCompletion(unittest.TestCase):
 
