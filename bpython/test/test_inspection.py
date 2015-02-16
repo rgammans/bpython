@@ -7,6 +7,7 @@ try:
 except ImportError:
     import unittest
 
+from bpython._py3compat import py3
 from bpython import inspection
 from bpython.test.fodder import encoding_ascii
 from bpython.test.fodder import encoding_latin1
@@ -62,6 +63,7 @@ class TestInspection(unittest.TestCase):
         self.assertFalse(inspection.is_callable(None))
         self.assertTrue(inspection.is_callable(CallableMethod().method))
 
+    @unittest.skipIf(py3, 'old-style classes only exist in Python 2')
     def test_is_new_style(self):
         self.assertTrue(inspection.is_new_style(spam))
         self.assertTrue(inspection.is_new_style(Noncallable))
@@ -69,6 +71,16 @@ class TestInspection(unittest.TestCase):
         self.assertTrue(inspection.is_new_style(Noncallable()))
         self.assertFalse(inspection.is_new_style(OldNoncallable()))
         self.assertTrue(inspection.is_new_style(None))
+
+    @unittest.skipUnless(py3, 'only in Python 3 are all classes new-style')
+    def test_is_new_style(self):
+        self.assertTrue(inspection.is_new_style(spam))
+        self.assertTrue(inspection.is_new_style(Noncallable))
+        self.assertTrue(inspection.is_new_style(OldNoncallable))
+        self.assertTrue(inspection.is_new_style(Noncallable()))
+        self.assertTrue(inspection.is_new_style(OldNoncallable()))
+        self.assertTrue(inspection.is_new_style(None))
+
 
     def test_parsekeywordpairs(self):
         # See issue #109
@@ -172,6 +184,7 @@ class TestSafeGetAttribute(unittest.TestCase):
         self.assertEquals(inspection.safe_get_attribute_new_style(p, 'prop'),
                           Property.prop)
 
+    @unittest.skipIf(py3, 'Old-style classes not in Python 3')
     def test_raises_on_old_style_class(self):
         class Old: pass
         with self.assertRaises(ValueError):
