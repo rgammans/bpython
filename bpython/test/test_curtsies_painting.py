@@ -285,12 +285,10 @@ class TestCurtsiesRewindRedraw(CurtsiesPaintingTest):
         sys.a = 5
         self.enter('import sys')
         self.enter('for i in range(sys.a): print(sys.a)')
-        self.enter()
         self.enter('1 + 1')
         self.enter('2 + 2')
         screen = ['>>> import sys',
                   '>>> for i in range(sys.a): print(sys.a)',
-                  '... ',
                   '5',
                   '5',
                   '5',
@@ -301,9 +299,9 @@ class TestCurtsiesRewindRedraw(CurtsiesPaintingTest):
                   '>>> 2 + 2',
                   '4',
                   '>>> ']
-        self.assert_paint_ignoring_formatting(screen, (12, 4))
+        self.assert_paint_ignoring_formatting(screen, (11, 4))
         self.repl.scroll_offset += len(screen) - self.repl.height
-        self.assert_paint_ignoring_formatting(screen[8:], (4, 4))
+        self.assert_paint_ignoring_formatting(screen[7:], (4, 4))
         sys.a = 6
         self.undo()
         screen = [INCONSISTENT_HISTORY_MSG[:self.repl.width],
@@ -323,12 +321,10 @@ class TestCurtsiesRewindRedraw(CurtsiesPaintingTest):
         sys.a = 5
         self.enter("import sys")
         self.enter("for i in range(sys.a): print(sys.a)")
-        self.enter()
         self.enter("1 + 1")
         self.enter("2 + 2")
         screen = [">>> import sys",
                   ">>> for i in range(sys.a): print(sys.a)",
-                  '... ',
                   '5',
                   '5',
                   '5',
@@ -339,9 +335,9 @@ class TestCurtsiesRewindRedraw(CurtsiesPaintingTest):
                   '>>> 2 + 2',
                   '4',
                   '>>> ']
-        self.assert_paint_ignoring_formatting(screen, (12, 4))
+        self.assert_paint_ignoring_formatting(screen, (11, 4))
         self.repl.scroll_offset += len(screen) - self.repl.height
-        self.assert_paint_ignoring_formatting(screen[8:], (4, 4))
+        self.assert_paint_ignoring_formatting(screen[7:], (4, 4))
         sys.a = 8
         self.undo()
         screen = [INCONSISTENT_HISTORY_MSG[:self.repl.width],
@@ -360,12 +356,10 @@ class TestCurtsiesRewindRedraw(CurtsiesPaintingTest):
         sys.a = 5
         self.enter("import sys")
         self.enter("for i in range(sys.a): print(sys.a)")
-        self.enter()
         self.enter("1 + 1")
         self.enter("2 + 2")
         screen = [">>> import sys",
                   ">>> for i in range(sys.a): print(sys.a)",
-                  '... ',
                   '5',
                   '5',
                   '5',
@@ -376,9 +370,9 @@ class TestCurtsiesRewindRedraw(CurtsiesPaintingTest):
                   '>>> 2 + 2',
                   '4',
                   '>>> ']
-        self.assert_paint_ignoring_formatting(screen, (12, 4))
+        self.assert_paint_ignoring_formatting(screen, (11, 4))
         self.repl.scroll_offset += len(screen) - self.repl.height
-        self.assert_paint_ignoring_formatting(screen[8:], (4, 4))
+        self.assert_paint_ignoring_formatting(screen[7:], (4, 4))
         sys.a = 1
         self.undo()
         screen = [INCONSISTENT_HISTORY_MSG[:self.repl.width],
@@ -395,11 +389,9 @@ class TestCurtsiesRewindRedraw(CurtsiesPaintingTest):
         self.repl.width = 50
         sys.a = 5
         self.enter("for i in range(__import__('sys').a): print(i)")
-        self.enter()
         self.enter("1 + 1")
         self.enter("2 + 2")
         screen = [">>> for i in range(__import__('sys').a): print(i)",
-                  '... ',
                   '0',
                   '1',
                   '2',
@@ -410,9 +402,9 @@ class TestCurtsiesRewindRedraw(CurtsiesPaintingTest):
                   '>>> 2 + 2',
                   '4',
                   '>>> ']
-        self.assert_paint_ignoring_formatting(screen, (11, 4))
+        self.assert_paint_ignoring_formatting(screen, (10, 4))
         self.repl.scroll_offset += len(screen) - self.repl.height
-        self.assert_paint_ignoring_formatting(screen[7:], (4, 4))
+        self.assert_paint_ignoring_formatting(screen[6:], (4, 4))
         sys.a = 6
         self.undo()
         screen = ['5',
