@@ -30,7 +30,6 @@ import io
 import os
 import pkgutil
 import pydoc
-import requests
 import shlex
 import subprocess
 import sys
@@ -774,6 +773,7 @@ class Repl(object):
         }
 
         self.interact.notify(_('Posting data to pastebin...'))
+        import requests  # lazily import requests
         try:
             response = requests.post(url, data=payload, verify=True)
             response.raise_for_status()
