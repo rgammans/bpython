@@ -250,6 +250,9 @@ if not py3:
                 if self.file is not None:
                     self.file.close()
 
+        def get_data(self, pathname):
+            return open(pathname, "rb").read()
+
 
 class ImportFinder(object):
 
