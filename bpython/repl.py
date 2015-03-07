@@ -55,6 +55,9 @@ from bpython.formatter import Parenthesis
 from bpython.history import History
 from bpython.translations import _, ngettext
 
+if py3:  # used for getting pretty-printing exceptions
+    unicode = str
+
 
 class RuntimeTimer(object):
     def __init__(self):
@@ -545,11 +548,11 @@ class Repl(object):
                     obj = self.get_object(line)
             return inspection.get_source_unicode(obj)
         except (AttributeError, NameError) as e:
-            msg = _("Cannot get source: %s") % (str(e), )
+            msg = _("Cannot get source: %s") % (unicode(e), )
         except IOError as e:
-            msg = str(e)
+            msg = unicode(e)
         except TypeError as e:
-            if "built-in" in str(e):
+            if "built-in" in unicode(e):
                 msg = _("Cannot access source of %r") % (obj, )
             else:
                 msg = _("No source code found for %s") % (self.current_line, )
