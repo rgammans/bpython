@@ -93,6 +93,7 @@ if not py3:
 # --- module globals ---
 stdscr = None
 colors = None
+orig_stdin_fileno = None
 
 DO_RESIZE = False
 # ---
@@ -846,8 +847,9 @@ class CLIRepl(repl.Repl):
             C_BACK = chr(127)
             BACKSP = chr(8)
         else:
-            C_BACK = chr(8)
-            BACKSP = chr(127)
+            data = termios.tcgetattr(orig_stdin_fileno)
+            BACKSP = data[6][termios.VERASE]
+            C_BACK = chr(8) if BACKSP != chr(8) else chr(127)
 
         if key == C_BACK:  # C-Backspace (on my computer anyway!)
             self.clrtobol()
@@ -1945,11 +1947,14 @@ def main_curses(scr, args, config, interactive=True, locals_=None,
 
 
 def main(args=None, locals_=None, banner=None):
+    global orig_stdin_fileno
+
     translations.init()
 
 
     config, options, exec_args = bpython.args.parse(args)
 
+    orig_stdin_fileno = sys.stdin.fileno()
     # Save stdin, stdout and stderr for later restoration
     orig_stdin = sys.stdin
     orig_stdout = sys.stdout
